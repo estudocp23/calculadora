@@ -1,0 +1,90 @@
+/* Seletor Universal (*): Aplica estas regras a absolutamente TODOS os elementos da página */
+* {
+  box-sizing: border-box; /* Garante que 'padding' e 'border' não aumentem o tamanho total do elemento */
+  margin: 0;              /* Remove as margens externas padrão que o navegador cria */
+  padding: 0;             /* Remove os espaçamentos internos padrão do navegador */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define a família de fontes */
+}
+
+/* Estilização da página inteira */
+body {
+  display: flex;           /* Ativa o Flexbox para alinhar itens de forma fácil */
+  justify-content: center; /* Centraliza a calculadora na horizontal */
+  align-items: center;     /* Centraliza a calculadora na vertical */
+  min-height: 100vh;       /* Define a altura mínima do corpo como 100% da tela do navegador */
+  background-color: #f0f2f5; /* Cor cinza-clara para o fundo da página */
+}
+
+/* Estilização do bloco principal da calculadora */
+.calculator {
+  background-color: #22252d; /* Cor de fundo escura do corpo da calculadora */
+  padding: 20px;             /* Espaço de 20px entre o conteúdo e a borda externa */
+  border-radius: 16px;       /* Arredonda os 4 cantos do bloco */
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3); /* Aplica uma sombra para dar efeito de elevação */
+  width: 300px;              /* Define a largura fixa da calculadora */
+}
+
+/* Estilização do visor de números */
+#display {
+  width: 100%;               /* Faz o visor ocupar toda a largura interna da calculadora */
+  height: 60px;              /* Define a altura do visor */
+  background-color: #292d36; /* Cor de fundo do visor (ligeiramente mais clara que o fundo da calculadora) */
+  border: none;              /* Remove as bordas padrão da caixa de texto */
+  border-radius: 10px;       /* Arredonda os cantos do visor */
+  color: #ffffff;            /* Cor branca para os números */
+  font-size: 2rem;           /* Tamanho grande do texto dos números */
+  text-align: right;         /* Alinha os números à direita (padrão de calculadoras) */
+  padding: 10px 15px;        /* Espaçamento interno para o texto não encostar na borda */
+  margin-bottom: 20px;       /* Espaço entre a parte inferior do visor e os botões */
+}
+
+/* Estilização da caixa de botões usando Grid */
+.buttons {
+  display: grid;                       /* Ativa o sistema de layout em grade */
+  grid-template-columns: repeat(4, 1fr); /* Cria 4 colunas com larguras perfeitamente iguais (1 fração cada) */
+  gap: 10px;                           /* Define um espaço de 10px entre cada botão */
+}
+
+/* Estilização padrão de TODOS os botões */
+button {
+  height: 50px;              /* Altura de cada botão */
+  border: none;              /* Remove as bordas padrão do botão */
+  border-radius: 10px;       /* Cantos arredondados */
+  background-color: #292d36; /* Cor de fundo escura do botão */
+  color: #ffffff;            /* Cor branca para o texto/número */
+  font-size: 1.2rem;         /* Tamanho da fonte dos botões */
+  font-weight: bold;         /* Deixa o texto em negrito */
+  cursor: pointer;           /* Muda o cursor do mouse para a mãozinha de clique */
+  transition: background-color 0.2s, transform 0.1s; /* Suaviza as animações de clique e movimento */
+}
+
+/* Muda a cor do botão quando o usuário passa o mouse por cima */
+button:hover {
+  background-color: #373c47; /* Cor do botão levemente mais clara */
+}
+
+/* Animação para quando o botão é efetivamente pressionado */
+button:active {
+  transform: scale(0.95); /* Reduz levemente o tamanho do botão (efeito de ser pressionado) */
+}
+
+/* Estilo para os botões de operações (+, -, *, /, C, ⌫) */
+.operator {
+  color: #26e7a6; /* Deixa o texto do botão com cor verde chamativa */
+}
+
+/* Estilo exclusivo para o botão 'igual' (=) */
+.equal {
+  background-color: #26e7a6; /* Preenche o fundo do botão com a cor verde */
+  color: #22252d;            /* Cor do sinal de igual em tom escuro para criar contraste */
+}
+
+/* Efeito hover exclusivo para o botão 'igual' */
+.equal:hover {
+  background-color: #20c991; /* Verde um pouco mais escuro ao passar o mouse */
+}
+
+/* Classe utilitária para botões grandes */
+.span-2 {
+  grid-column: span 2; /* Informa ao CSS Grid que este botão deve ocupar o espaço de 2 colunas */
+}

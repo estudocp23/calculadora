@@ -1,0 +1,164 @@
+<!DOCTYPE html> <html lang="pt-BR"> <head>
+  <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Calculadora em Arquivo Único</title> <style>
+    /* Seletor Universal (*): Aplica a todos os elementos da página */
+    * {
+      box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho do elemento */
+      margin: 0;              /* Remove as margens externas padrão do navegador */
+      padding: 0;             /* Remove os espaçamentos internos padrão */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Família de fontes */
+    }
+
+    /* Estilização do fundo da página inteira */
+    body {
+      display: flex;           /* Ativa o Flexbox para alinhar itens */
+      justify-content: center; /* Centraliza a calculadora na horizontal */
+      align-items: center;     /* Centraliza a calculadora na vertical */
+      min-height: 100vh;       /* Define a altura como 100% da tela do navegador */
+      background-color: #f0f2f5; /* Cor cinza-clara de fundo */
+    }
+
+    /* Bloco principal da calculadora */
+    .calculator {
+      background-color: #22252d; /* Cor de fundo escura */
+      padding: 20px;             /* Espaço interno entre os botões e a borda */
+      border-radius: 16px;       /* Arredonda os cantos da calculadora */
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3); /* Sombra para dar efeito flutuante */
+      width: 300px;              /* Largura fixa da calculadora */
+    }
+
+    /* Visor de texto onde aparecem os números */
+    #display {
+      width: 100%;               /* Ocupa toda a largura interna */
+      height: 60px;              /* Altura do visor */
+      background-color: #292d36; /* Fundo do visor */
+      border: none;              /* Remove a borda padrão do input */
+      border-radius: 10px;       /* Cantos arredondados */
+      color: #ffffff;            /* Cor branca para os números */
+      font-size: 2rem;           /* Tamanho do texto */
+      text-align: right;         /* Alinha os números à direita */
+      padding: 10px 15px;        /* Espaço interno para o texto não colar na borda */
+      margin-bottom: 20px;       /* Distância entre o visor e os botões */
+    }
+
+    /* Grade para organizar os botões */
+    .buttons {
+      display: grid;                       /* Ativa o layout em grade */
+      grid-template-columns: repeat(4, 1fr); /* Cria 4 colunas de tamanho igual */
+      gap: 10px;                           /* Espaço de 10px entre cada botão */
+    }
+
+    /* Estilo padrão de TODOS os botões */
+    button {
+      height: 50px;              /* Altura do botão */
+      border: none;              /* Remove as bordas */
+      border-radius: 10px;       /* Cantos arredondados */
+      background-color: #292d36; /* Cor de fundo do botão */
+      color: #ffffff;            /* Cor do texto do botão */
+      font-size: 1.2rem;         /* Tamanho da fonte */
+      font-weight: bold;         /* Deixa o texto em negrito */
+      cursor: pointer;           /* Cursor vira 'mãozinha' ao passar por cima */
+      transition: background-color 0.2s, transform 0.1s; /* Animação suave ao interagir */
+    }
+
+    /* Efeito ao passar o mouse sobre qualquer botão */
+    button:hover {
+      background-color: #373c47; /* Cor levemente mais clara */
+    }
+
+    /* Efeito ao clicar/pressionar o botão */
+    button:active {
+      transform: scale(0.95); /* Reduz 5% do tamanho simulando um clique físico */
+    }
+
+    /* Estilo especial para os operadores (+, -, *, /, C, ⌫) */
+    .operator {
+      color: #26e7a6; /* Cor verde nos símbolos */
+    }
+
+    /* Estilo exclusivo para o botão 'igual' (=) */
+    .equal {
+      background-color: #26e7a6; /* Fundo verde chamativo */
+      color: #22252d;            /* Texto escuro para contraste */
+    }
+
+    .equal:hover {
+      background-color: #20c991; /* Verde um pouco mais escuro no hover */
+    }
+
+    /* Classe utilitária para botões duplos */
+    .span-2 {
+      grid-column: span 2; /* Faz o botão ocupar o espaço de 2 colunas */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    
+    <input type="text" id="display" readonly placeholder="0">
+
+    <div class="buttons">
+      <button onclick="clearDisplay()" class="operator">C</button>
+      <button onclick="deleteChar()" class="operator">⌫</button>
+      <button onclick="appendValue('/')" class="operator">/</button>
+      <button onclick="appendValue('*')" class="operator">*</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')" class="operator">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')" class="operator">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculate()" class="equal span-2">=</button>
+
+      <button onclick="appendValue('0')" class="span-2">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    // Seleciona o elemento input do visor pelo seu ID
+    const display = document.getElementById('display');
+
+    // Função para adicionar caracteres no visor
+    function appendValue(input) {
+      display.value += input; // Concatena o novo caractere ao que já está no visor
+    }
+
+    // Função para limpar todo o visor (Botão 'C')
+    function clearDisplay() {
+      display.value = ''; // Define o valor como uma string vazia
+    }
+
+    // Função para apagar o último caractere (Botão '⌫')
+    function deleteChar() {
+      // slice(0, -1) remove o último caractere do texto atual
+      display.value = display.value.slice(0, -1);
+    }
+
+    // Função para resolver o cálculo matemático (Botão '=')
+    function calculate() {
+      try {
+        // eval() processa a string no visor como expressão matemática real
+        display.value = eval(display.value);
+      } catch (error) {
+        // Se a expressão for inválida (ex: "5++*"), exibe mensagem de erro
+        display.value = 'Erro';
+        
+        // Aguarda 1.5 segundos (1500 milissegundos) e depois limpa o visor automaticamente
+        setTimeout(() => {
+          clearDisplay();
+        }, 1500);
+      }
+    }
+  </script>
+
+</body>
+</html>
